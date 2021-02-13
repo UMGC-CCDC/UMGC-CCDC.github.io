@@ -65,7 +65,7 @@ if [ "$show_help" = true ]; then
     echo '    -h show_help           This'
     echo '    -q quarantine          Kills a user'\'s' processes and archives their files in /home'
     echo '    -f lock_firewall       accepts argument "lock" to completely lock down the firewall'
-    echo '			     also accepts port number to open a specific port.'
+    echo '			     also accepts port number to open a specific port or "out" to toggle output.'
     echo '    -i set_interfaces      quickly sets all interfaces up/down'
     echo '    -u new_user            adds a new user with provided password'
     echo '    -v validate_checksums  Check to make sure checksums of critical files haven'\''t changed'
@@ -78,12 +78,13 @@ if [ "$show_help" = true ]; then
     echo
     echo 'Example usages for flags requiring arguments:'
     echo 
-    echo '		sudo bash l -p "newpassword"       -- Quotes required w/ space in password'
+    echo '		sudo bash l -p "newpassword"       	-- Quotes required w/ space in password'
     echo '		sudo bash l -q username'
     echo '		sudo bash l -i down'
-    echo '		sudo bash l -u "username password" -- Quotes required'
-    echo '		sudo bash l -f lock		       -- Locks down the firewall'
-    echo '		sudo bash l -f 80		       -- Opens port 80'
+    echo '		sudo bash l -u "username password" 	-- Quotes required'
+    echo '		sudo bash l -f lock		       	-- Locks down the firewall'
+    echo '		sudo bash l -f 80		       	-- Opens port 80'
+    echo '		sudo bash l -f out			-- Toggles OUTPUT on/off'
     
     
 fi
