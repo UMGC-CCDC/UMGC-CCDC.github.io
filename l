@@ -284,7 +284,7 @@ if [ "$validate_checksums" = true ]; then
 	else
 		BLUE "Capturing initial checksums of critical files..."
 	fi
-	BLUE "The reference checksums are always stored at /root/reference_checksums"
+	BLUE "The reference checksums are always stored at /var/rechk"
 
 	# add critical files or directories to be checked here using absolute paths
 	# wrapped in quotes and separated by a single space
@@ -307,8 +307,8 @@ if [ "$validate_checksums" = true ]; then
 	   	rm /var/rechk.tmp	
 	else
 		openssl enc -e -aes-256-cbc -in current_checksums -out /var/rechk
-		mv current_checksums /root/reference_checksums
-		GREEN "Successfully stashed the reference checksums in /root/reference_checksums"
+		rm current_checksums
+		GREEN "Successfully stashed the reference checksums in /var/rechk"
 	fi
 fi
 
