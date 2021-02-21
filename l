@@ -135,27 +135,27 @@ if [ "$auto_secure" = true ]; then
 	RED $(cat /etc/shadow | grep '\$' | cut -d":" -f1) && echo
 
 	# Bring down all network interfaces
-	sudo bash ccdc_linux.sh -i down
+	sudo bash l -i down
 
 	# Change all user passwords
-	sudo bash ccdc_linux.sh -p "yodagreenears"
+	sudo bash l -p "yodagreenears"
 
 	# Create backup accounts
-	sudo bash ccdc_linux.sh -u "han spacesmuggler69"
-	sudo bash ccdc_linux.sh -u "kylo feistyfella1337"
+	sudo bash l -u "han spacesmuggler69"
+	sudo bash l -u "kylo feistyfella1337"
 
 	# Backup Binaries
-	sudo bash ccdc_linux.sh -b 
+	sudo bash l -b 
 
 	# Capture initial checksum of critical files
-	sudo bash ccdc_linux.sh -v 
+	sudo bash l -v 
 
 	# Secure firewall then open 22 so we can reconnect
-	sudo bash ccdc_linux.sh -f lock
-	sudo bash ccdc_linux.sh -f 22
+	sudo bash l -f lock
+	sudo bash l -f 22
 
 	# Bring interfaces back up
-	sudo bash ccdc_linux.sh -i up
+	sudo bash l -i up
 
 	GREEN "Auto-Secure actions complete..."
 
