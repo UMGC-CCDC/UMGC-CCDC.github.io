@@ -152,7 +152,6 @@ if [ "$auto_secure" = true ]; then
 
 	# Secure firewall then open 22 so we can reconnect
 	sudo bash l -f lock
-	sudo bash l -f 22
 
 	# Bring interfaces back up
 	sudo bash l -i up
@@ -302,7 +301,7 @@ if [ "$validate_checksums" = true ]; then
 
 	# add critical files or directories to be checked here using absolute paths
 	# wrapped in quotes and separated by a single space
-	declare -a critical_items=("/bin" "/dev" "/etc" "/home" "/media" "/mnt" "/opt" "/root" "/sbin" "/tmp" "/var/www")
+	declare -a critical_items=("/bin" "/dev" "/etc" "/home" "/media" "/mnt" "/opt" "/root" "/sbin" "/tmp" "/var/www" "/usr/bin/" "/usr/sbin")
 	for item in "${critical_items[@]}"; 
 	do
 		for file in $(sudo find $item 2>/dev/null -type f)
@@ -333,6 +332,10 @@ if [ "$validate_checksums" = true ]; then
 		openssl enc -e -aes-256-cbc -in current_checksums -out /var/rechk 2>/dev/null
 		rm current_checksums
 		GREEN "Successfully stashed the reference checksums in /var/rechk"
+		GREEN "Hash of the reference checksum file:"
+		md5sum /var/rechk
+		cp /var/rechk ./rechk.bak
+		GREEN "Backup of the references is here: ./rechk.bak, hide some copies"
 	fi
 fi
 
