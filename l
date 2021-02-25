@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/usr/bin/env bash
 
 # initialize options
 auto_secure='false'
@@ -325,6 +325,7 @@ if [ "$validate_checksums" = true ]; then
 		cat diff.tmp | grep \< | cut -d":" -f1 && echo
 		RED "Files changed..."
 		cat diff.tmp | grep \| | cut -d":" -f1 && echo
+		rm diff.tmp
 		echo
 		rm current_checksums
 		openssl enc -e -aes-256-cbc -in /var/rechk.tmp -out /var/rechk 2>/dev/null
