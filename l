@@ -121,9 +121,9 @@ if [ "$auto_secure" = true ]; then
 	BLUE "Performing the scripted default actions to secure the system..."
 
 	# Handle ssh
-	BLUE "Killing ssh-keygen and removing keys..."
-	find / 2>/dev/null -type d | grep /.ssh | xargs rm -rf
-	rm -rf $(which ssh-keygen)
+	BLUE "Looking for SSH keys..."
+	find / 2>/dev/null -type d | grep /.ssh 
+	RED $(which ssh-keygen)
 	BLUE "Checking if alternate ssh key files have been configured..."
 	RED $(grep -rnw /etc/ssh -e AuthorizedKeysFile | grep -v '#')
 	echo
@@ -134,27 +134,15 @@ if [ "$auto_secure" = true ]; then
 	BLUE "Listing all user accounts with passwords set, none should be services..."
 	RED $(cat /etc/shadow | grep '\$' | cut -d":" -f1) && echo
 
-	# Bring down all network interfaces
-	sudo bash l -i down
-
-	# Change all user passwords
-	sudo bash l -p "yodagreenears"
-
 	# Create backup accounts
-	sudo bash l -u "han spacesmuggler69"
-	sudo bash l -u "kylo feistyfella1337"
+	sudo bash l -u "han roguespacesmuggler"
+	sudo bash l -u "kylo feistyfellasaber"
 
 	# Backup Binaries
 	sudo bash l -b 
 
 	# Capture initial checksum of critical files
 	sudo bash l -v 
-
-	# Secure firewall then open 22 so we can reconnect
-	sudo bash l -f lock
-
-	# Bring interfaces back up
-	sudo bash l -i up
 
 	GREEN "Auto-Secure actions complete..."
 
@@ -204,14 +192,18 @@ if [ "$lock_firewall" = true ]; then
 		sudo ip6tables -F
 		sudo iptables -F
 		
+		# allow ssh
+		sudo iptables -A INPUT -p tcp --dport 22 -j ACCEPT
+		sudo iptables -A OUTPUT -p tcp --sport 22 -j ACCEPT
+		
 		# set default policy to DROP for IPv6
 		sudo ip6tables -P INPUT DROP
 		sudo ip6tables -P OUTPUT DROP
 		sudo ip6tables -P FORWARD DROP
 
-		# set default policy to DROP for IPv4
+		# set default policy to DROP for IPv4 INPUT and FORWARD, Accept output
 		sudo iptables -P INPUT DROP
-		sudo iptables -P OUTPUT DROP
+		sudo iptables -P OUTPUT ACCEPT
 		sudo iptables -P FORWARD DROP
 
 		# allow connections that our machine requested
