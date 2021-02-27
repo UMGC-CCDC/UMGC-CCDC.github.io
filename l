@@ -128,6 +128,10 @@ if [ "$auto_secure" = true ]; then
 	RED $(grep -rnw /etc/ssh -e AuthorizedKeysFile | grep -v '#')
 	echo
 
+	# Firewall
+	BLUE "Locking Firewall..."
+	sudo bash l -f lock
+
 	# Check for issues with passwd, shadow, and shell files
 	BLUE "Checking for users set up for no password login (missing 'x' in /etc/passwd)... "
 	RED $(cat /etc/passwd | cut -d: -f1,2 | grep -v x | cut -d":" -f1) && echo
